@@ -1,0 +1,3 @@
+[submodule "share/lib/App-SCS"]
+	path = share/lib/App-SCS
+	url = git://git.shadowcat.co.uk/scpubgit/App-SCS.git
