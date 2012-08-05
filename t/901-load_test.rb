@@ -1,5 +1,6 @@
+$:.unshift '.'
+require 't/helper.rb'
 require 'minitest/spec'
-require 'minitest/autorun'
 
 require 'app/ombre'
 
@@ -10,7 +11,12 @@ describe App::Ombre do
   end
 
   describe "Page Objects" do
-    before do
-    end
+#    before do
+#      @simple1 = @app.pages.get({ :path => 'simple/1' })
+#    end
+#
+#    it "loads the correct file" do
+#      assert @simple1.html == IO.read('t/data/share/simple/1.html'), "File contents match."
+#    end
   end
 end
