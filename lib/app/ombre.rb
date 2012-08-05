@@ -14,13 +14,15 @@ module App
     end
 
     attr_lazy :root_dir, :share_dir, :page_plugin_config, :pages, :web
-    attr_reader :plugins
+    attr_lazy_reader :plugins
 
     def initialize(config)
       @config = config
       self.load_plugin("Core", nil)
-      config['plugins'].each_key do |k|
-        self.load_plugin(k, config['plugins'][k])
+      unless config['plugins'].nil?
+        config['plugins'].each_key do |k|
+          self.load_plugin(k, config['plugins'][k])
+        end
       end
     end
 
@@ -48,8 +50,19 @@ module App
     def _build_web
     end
 
-    def _default_plugins
+    def _build_plugins
       []
+    end
+
+    def load_plugin name, conf
+      cl = (name =~ /^\+/) ? name : "App::Ombre::Plugin::#{name}"
+      rq = cl.to_s.gsub(/::/, '/').
+        gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').
+        gsub(/([a-z\d])([A-Z])/,'\1_\2').
+        tr("-", "_").
+        downcase
+      require "#{rq}"
+      self.plugins.push { Kernel.const_get(cl).new(conf) }
     end
 
   end
