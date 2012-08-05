@@ -1,6 +1,6 @@
 
 module App
-  module Ombre
+  class Ombre
     module Sugar
       def attr_lazy_reader *args
         args.each { |e|
